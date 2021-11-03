@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import OptionDisplay from "./OptionDisplay";
 import "./Form.css";
 import TextField from "@mui/material/TextField";
+import States from "./States";
 
 const Form = () => {
   const [stateData, setStateData] = useState([]);
@@ -26,19 +27,17 @@ const Form = () => {
         variant="outlined"
         style={{margin: "40px 0", width: "100%"}}
       />
-      <div onClick={() => {setDisplayStates(!displayStates)}}>
+      <div
+        onClick={() => {
+          setDisplayStates(!displayStates);
+        }}
+      >
         <OptionDisplay label={"India"} width="300" isCheckboxVisible={false} />
       </div>
-      {/* <OptionDisplay label={"Kolkata"} padding="100" isCheckboxVisible={true} /> */}
 
-      {displayStates? stateData.map((ele) => (
-        <OptionDisplay
-          key={ele.id}
-          label={ele.state}
-          width="250"
-          isCheckboxVisible={true}
-        />
-      )):''}
+      {displayStates
+        ? stateData.map((ele) => <States id={ele.id} label={ele.state} />)
+        : ""}
     </div>
   );
 };
