@@ -1,6 +1,6 @@
 // Importing libraries
 const express = require('express');
-
+const cors = require('cors');
 
 //IMPORTS
 const fileRouter = require('./routes/file.route');
@@ -9,6 +9,9 @@ const cityRouter = require('./routes/city.route');
 
 //Initializing app
 const app = express();
+app.use(cors({
+    origin: '*'
+}))
 
 // ROUTES
 app.use('/', fileRouter);

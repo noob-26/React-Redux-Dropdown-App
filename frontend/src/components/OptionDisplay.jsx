@@ -1,13 +1,13 @@
 import React from "react";
 import "./OptionDisplay.css";
 
-const OptionDisplay = ({label, padding, isCheckboxVisible}) => {
-  const val = padding;
+const OptionDisplay = ({label, width, isCheckboxVisible}) => {
+  const val = width;
   return (
     <div className="OptionDisplay">
       <label
         className="formfield"
-        style={{paddingRight: `${val}px`, marginBottom: "20px"}}
+        style={{marginBottom: "20px", width: `${val}px`}}
       >
         {isCheckboxVisible ? <input type="checkbox" name="" /> : ""}
         {label}
