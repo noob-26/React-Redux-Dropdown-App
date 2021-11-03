@@ -1,0 +1,19 @@
+.OptionDisplay{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.formfield{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #d6d6d4;
+    padding: 15px;
+}
+
+.formfield input[type="checkbox"]{
+    margin-right: 10px;
+}
