@@ -15,3 +15,5 @@ Description : Returns the List of States
 
 Route : <code>GET /getcities/:state</code><br>
 Description : Returns the list of major cities of a state
+
+<img src="https://user-images.githubusercontent.com/56394033/140427307-bb490b55-0c07-4a3b-903f-03475d0dec5b.png">
