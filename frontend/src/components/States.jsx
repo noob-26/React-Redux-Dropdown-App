@@ -1,16 +1,29 @@
 import React, {useState, useEffect} from "react";
 import OptionDisplay from "./OptionDisplay";
 import "./States.css";
+import {useDispatch} from "react-redux";
+import addInfo from "../actionCreators/addInfo";
+import addState from "../actionCreators/addState";
+import removeState from "../actionCreators/removeState";
 
 const States = ({id, label}) => {
   const [showChildren, setShowChildren] = useState(false);
   const [cityData, setcityData] = useState([]);
+  const [checked, setChecked] = useState(false);
+  const [checkchild, setCheckchild] = useState(0);
+  const dispatch = useDispatch();
 
   const getCities = async () => {
-    const url = `http://localhost:5000/getcities/${label}`;
-    const data = await fetch(url);
-    const cities = await data.json();
-    setcityData(cities.cities);
+    try {
+      const url = `http://localhost:5000/getcities/${label}`;
+      const data = await fetch(url);
+      const cities = await data.json();
+      setcityData(cities.cities);
+      const arr = cities.cities.map((e) => e.name);
+      dispatch(addInfo(label, arr));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -24,17 +37,39 @@ const States = ({id, label}) => {
           setShowChildren(!showChildren);
         }}
       >
-        <OptionDisplay
-          label={label}
-          isCheckboxVisible={true}
-          key={id}
-          width="250"
-        />
+        <div className="OptionDisplay">
+          <div
+            className="formfield"
+            style={{marginBottom: "20px", width: `250px`}}
+          >
+            <input
+              onChange={(e) => {
+                setChecked(!checked);
+                if (e.target.checked) {
+                  dispatch(addState(label));
+                } else {
+                  dispatch(removeState(label));
+                }
+              }}
+              checked={checked === true ? true : ((checkchild === 0) ? false : true)}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              type="checkbox"
+              name="state"
+            />
+
+            {label}
+          </div>
+        </div>
       </div>
 
       {showChildren
         ? cityData.map((e) => (
             <OptionDisplay
+              setChanger={setCheckchild}
+              checked={checked}
+              type="city"
               label={e.name}
               isCheckboxVisible={true}
               key={e.id}

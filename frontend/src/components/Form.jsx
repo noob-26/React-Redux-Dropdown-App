@@ -1,18 +1,25 @@
 import React, {useState, useEffect} from "react";
-import OptionDisplay from "./OptionDisplay";
+import {useSelector} from "react-redux";
 import "./Form.css";
 import TextField from "@mui/material/TextField";
+import {Button} from "@mui/material";
 import States from "./States";
 
 const Form = () => {
   const [stateData, setStateData] = useState([]);
   const [displayStates, setDisplayStates] = useState(false);
+  const selectedStates = useSelector((state) => state.states.selectedStates);
+  const selectedCities = useSelector((state) => state.states.selectedCities);
 
   const getStates = async () => {
-    const url = "http://localhost:5000/getstates";
-    const data = await fetch(url);
-    const states = await data.json();
-    await setStateData(states.states);
+    try {
+      const url = "http://localhost:5000/getstates";
+      const data = await fetch(url);
+      const states = await data.json();
+      await setStateData(states.states);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -32,12 +39,30 @@ const Form = () => {
           setDisplayStates(!displayStates);
         }}
       >
-        <OptionDisplay label={"India"} width="300" isCheckboxVisible={false} />
+        <div className="OptionDisplay">
+          <div
+            className="formfield"
+            style={{marginBottom: "20px", width: `300px`}}
+          >
+            {"India"}
+          </div>
+        </div>
       </div>
 
       {displayStates
-        ? stateData.map((ele) => <States id={ele.id} label={ele.state} />)
+        ? stateData.map((ele) => <States key={ele.id} label={ele.state} />)
         : ""}
+
+      <Button
+        onClick={(e) => {
+          e.preventDefault();
+          console.log("Selected States : ", selectedStates);
+          console.log("Selected Cities: ", selectedCities);
+        }}
+        variant="contained"
+      >
+        Submit
+      </Button>
     </div>
   );
 };
