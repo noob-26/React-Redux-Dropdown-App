@@ -6,7 +6,7 @@ import addInfo from "../actionCreators/addInfo";
 import addState from "../actionCreators/addState";
 import removeState from "../actionCreators/removeState";
 
-const States = ({id, label}) => {
+const States = ({label, search}) => {
   const [showChildren, setShowChildren] = useState(false);
   const [cityData, setcityData] = useState([]);
   const [checked, setChecked] = useState(false);
@@ -19,8 +19,12 @@ const States = ({id, label}) => {
       const data = await fetch(url);
       const cities = await data.json();
       setcityData(cities.cities);
-      const arr = cities.cities.map((e) => e.name);
+      let arr = cities.cities.map((e) => e.name);
       dispatch(addInfo(label, arr));
+      arr = arr.map(e => e.toLowerCase());
+      if(arr.includes(search.toLowerCase())){
+        alert(`Searched state exists inside ${label}`);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -28,7 +32,7 @@ const States = ({id, label}) => {
 
   useEffect(() => {
     getCities();
-  }, []);
+  }, [search]);
 
   return (
     <div className="state">
@@ -51,7 +55,9 @@ const States = ({id, label}) => {
                   dispatch(removeState(label));
                 }
               }}
-              checked={checked === true ? true : ((checkchild === 0) ? false : true)}
+              checked={
+                checked === true ? true : checkchild === 0 ? false : true
+              }
               onClick={(e) => {
                 e.stopPropagation();
               }}
@@ -63,11 +69,11 @@ const States = ({id, label}) => {
           </div>
         </div>
       </div>
-
       {showChildren
         ? cityData.map((e) => (
             <OptionDisplay
               setChanger={setCheckchild}
+              search={search}
               checked={checked}
               type="city"
               label={e.name}

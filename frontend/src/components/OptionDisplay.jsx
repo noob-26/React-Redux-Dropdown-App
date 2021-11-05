@@ -5,7 +5,7 @@ import {useDispatch} from "react-redux";
 import addCity from "../actionCreators/addCity";
 import removeCity from "../actionCreators/removeCity";
 
-const OptionDisplay = ({label, width, checked, setChanger}) => {
+const OptionDisplay = ({label, width, checked, setChanger, search}) => {
   const [selected, setSelected] = useState(false);
   const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ const OptionDisplay = ({label, width, checked, setChanger}) => {
           name="city"
         />
 
-        {label}
+        <span style={(search === label)?{color: 'red'}:{}}>{label}</span>
       </div>
     </div>
   );

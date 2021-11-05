@@ -10,6 +10,7 @@ const Form = () => {
   const [displayStates, setDisplayStates] = useState(false);
   const selectedStates = useSelector((state) => state.states.selectedStates);
   const selectedCities = useSelector((state) => state.states.selectedCities);
+  const [searchvalue, setSearchvalue] = useState('');
 
   const getStates = async () => {
     try {
@@ -29,6 +30,8 @@ const Form = () => {
   return (
     <div className="form">
       <TextField
+        value={searchvalue}
+        onChange={(e) => setSearchvalue(e.target.value)}
         id="outlined-basic"
         label="Search"
         variant="outlined"
@@ -50,7 +53,9 @@ const Form = () => {
       </div>
 
       {displayStates
-        ? stateData.map((ele) => <States key={ele.id} label={ele.state} />)
+        ? stateData.map((ele) => (
+            <States key={ele.id} label={ele.state} search={searchvalue} />
+          ))
         : ""}
 
       <Button
